@@ -1,0 +1,12 @@
+echo "bin/
+obj/
+.vs/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal
+
+.env
+docker-compose.override.yml
+" > .gitignore
