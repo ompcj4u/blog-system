@@ -102,9 +102,7 @@ INFRA -. Implements Application Interfaces .-> APP
 
 Scalar API documentation screenshot:
 
-```
-docs/images/scalar.jpg
-```
+![Scalar Screenshot](docs/images/scalar.jpg)
 
 ---
 
@@ -187,7 +185,7 @@ docs/images/scalar.jpg
 ## 1. Clone the repository
 
 ```bash
-git clone <your-repository>
+git clone https://github.com/ompcj4u/blog-system.git
 cd BlogProject
 ```
 
