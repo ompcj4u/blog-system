@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQRS.PostLike.Commands;
 public record TogglePostLikeCommand(Guid PostId, Guid UserId) : IRequest<Result<bool>>;
-public class TogglePostLikeCommandHandler(IPostLikeRepository _postLikeRepo, IPostRepository _postRepo) : IRequestHandler<TogglePostLikeCommand, Result<bool>>
+public class TogglePostLikeCommandHandler(IPostLikeRepository _postLikeRepo, IPostRepository _postRepo, IUnitOfWork _unitOfWork) : IRequestHandler<TogglePostLikeCommand, Result<bool>>
 {
     
 
@@ -21,7 +21,7 @@ public class TogglePostLikeCommandHandler(IPostLikeRepository _postLikeRepo, IPo
             return Result<bool>.Fail("Post not found");
 
         var isLiked = await _postLikeRepo.ToggleLikeAsync(request.PostId, request.UserId);
-
+        await _unitOfWork.SaveChangesAsync();
         return Result<bool>.Success(isLiked,
             isLiked ? "Post liked" : "Post unliked");
     }

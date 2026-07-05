@@ -15,7 +15,7 @@ namespace Application.CQRS.Auth.Commands;
 
 public record RegisterUserCommand(string FullName, string Email, string Password) : IRequest<Result<TokenResponse>>;
 
-public class RegisterUserCommandHandler(IUserRepository repoUser, IJwtService repoJWT) : IRequestHandler<RegisterUserCommand, Result<TokenResponse>>
+public class RegisterUserCommandHandler(IUserRepository repoUser, IJwtService repoJWT, IUnitOfWork _unitOfWork) : IRequestHandler<RegisterUserCommand, Result<TokenResponse>>
 {
     public async Task<Result<TokenResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
@@ -34,7 +34,7 @@ public class RegisterUserCommandHandler(IUserRepository repoUser, IJwtService re
 
         user.SetRefreshToken(result.RefreshToken, result.ExpiresAt);
         var userId = await repoUser.AddAsync(user);
-
+        await _unitOfWork.SaveChangesAsync();
         return Result<TokenResponse>.Success(result, "ثبت نام با موفقیت انجام شد");
 
     }

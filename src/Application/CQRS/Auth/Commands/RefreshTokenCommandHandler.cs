@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQRS.Auth.Commands;
 public record RefreshTokenCommand(string AccessToken,string RefreshToken) : IRequest<Result<TokenResponse>>;
-public class RefreshTokenCommandHandler(IUserRepository _userRepo, IJwtService _jwtService) : IRequestHandler<RefreshTokenCommand, Result<TokenResponse>>
+public class RefreshTokenCommandHandler(IUserRepository _userRepo, IJwtService _jwtService, IUnitOfWork _unitOfWork) : IRequestHandler<RefreshTokenCommand, Result<TokenResponse>>
 {
     public async Task<Result<TokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
@@ -27,7 +27,7 @@ public class RefreshTokenCommandHandler(IUserRepository _userRepo, IJwtService _
 
         user.SetRefreshToken(newRefreshToken, DateTime.UtcNow.AddDays(7));
         await _userRepo.UpdateAsync(user);
-
+        await _unitOfWork.SaveChangesAsync();
         return Result<TokenResponse>.Success(
             new TokenResponse(newAccessToken, newRefreshToken, DateTime.UtcNow.AddDays(7)),"توکن جدید");
 

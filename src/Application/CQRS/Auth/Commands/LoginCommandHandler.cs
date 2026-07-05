@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Application.CQRS.Auth.Commands;
 
 public record LoginCommand(string Email, string Password) : IRequest<Result<TokenResponse>>;
-public class LoginCommandHandler(IUserRepository _userRepo, IJwtService _jwtService) : IRequestHandler<LoginCommand, Result<TokenResponse>>
+public class LoginCommandHandler(IUserRepository _userRepo, IJwtService _jwtService, IUnitOfWork _unitOfWork) : IRequestHandler<LoginCommand, Result<TokenResponse>>
 {
     public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -25,7 +25,7 @@ public class LoginCommandHandler(IUserRepository _userRepo, IJwtService _jwtServ
 
         user.SetRefreshToken(refreshToken, DateTime.UtcNow.AddDays(7));
         await _userRepo.UpdateAsync(user);
-
+        await _unitOfWork.SaveChangesAsync();
         return Result<TokenResponse>.Success(
             new TokenResponse(accessToken, refreshToken, DateTime.UtcNow.AddDays(7)),
             "Login successful");
