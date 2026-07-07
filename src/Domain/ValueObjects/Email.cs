@@ -20,7 +20,7 @@ public class Email : ValueObject
 
         email = email.Trim().ToLowerInvariant();
 
-        if(MailAddress.TryCreate(email, out _))
+        if(!MailAddress.TryCreate(email, out _))
             throw new ArgumentException("Invalid email address");
 
 
