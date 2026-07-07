@@ -1,10 +1,5 @@
 ﻿using Domain.ValueObjects;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlogSystem.UnitTests.Domain.ValueObjects;
 public class EmailTests
@@ -35,13 +30,33 @@ public class EmailTests
         email.Value.Should().Be(expected);
     }
 
+    /// <summary>
+    /// firstEmail and secondEmail are repetetive
+    /// we can use BuilderPattern or AutoFixture
+    /// </summary>
+
     [Fact]
-    public void Email_Equal_Works()
+    public void Email_Should_Be_Equal_When_Values_Are_Equal()
     {
         var firstEmail = new Email("mohammad@gmail.com");
         var secondEmail = new Email("Mohammad@gmail.com");
-        firstEmail.Should().Be(secondEmail);
+        firstEmail.Should().Be(secondEmail); // check value
     }
+    [Fact]
+    public void Email_Should_Not_Be_Same_Instance_When_Values_Are_Equal()
+    {
+        var firstEmail = new Email("mohammad@gmail.com");
+        var secondEmail = new Email("Mohammad@gmail.com");
+        firstEmail.Should().NotBeSameAs(secondEmail); // check reference
+    }
+    [Fact]
+    public void Email_Should_Have_Same_HashCode_When_Values_Are_Equal()
+    {
+        var firstEmail = new Email("mohammad@gmail.com");
+        var secondEmail = new Email("Mohammad@gmail.com");
+        secondEmail.GetHashCode().Should().Be(firstEmail.GetHashCode());
+    }
+
 
     // sad path
     [Theory]
@@ -70,5 +85,12 @@ public class EmailTests
         var act = () => new Email("");
         act.Should().Throw<ArgumentException>();
     }
+
+    // [MemberData(nameof(InvalidEmails))]
+    public static IEnumerable<string> InvalidEmails => [
+
+                 "mohammad@gmail.",
+                 "mohammad@gmail.."
+            ];
 
 }
