@@ -1,4 +1,4 @@
-echo "bin/
+bin/
 obj/
 .vs/
 *.user
@@ -9,4 +9,3 @@ obj/
 
 .env
 docker-compose.override.yml
-" > .gitignore
