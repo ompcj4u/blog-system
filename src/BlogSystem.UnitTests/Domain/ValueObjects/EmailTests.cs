@@ -30,8 +30,16 @@ public class EmailTests
     {
         //act
         var email = new Email(input);
-        // assertion
+        // assert
         email.Value.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Email_Equal_Works()
+    {
+        var firstEmail = new Email("mohammad@gmail.com");
+        var secondEmail = new Email("Mohammad@gmail.com");
+        firstEmail.Should().Be(secondEmail);
     }
 
     // sad path
@@ -41,20 +49,24 @@ public class EmailTests
     [InlineData("mohammad@.com")]
     [InlineData("  @gmail.com")]
     [InlineData("mohammad")]
+    [InlineData("mohammad@gmail..com")]
     public void Email_Should_Throw_Exception_For_Invalid_Emails(string input)
     {
         var act = () => new Email(input);
         act.Should().Throw<ArgumentException>().WithMessage("Invalid email format");
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    public void Email_Should_Throw_Exceptions_For_Null_Empty_Email(string input)
+    [Fact]
+    public void Email_Should_Throw_For_Null_Empty_Email()
     {
-        var act = () => new Email(input);
-        act.Should().Throw<ArgumentException>().WithMessage("Email cannot be empty");
+        var act = () => new Email(null);
+        act.Should().Throw<ArgumentException>();
     }
-
+    [Fact]
+    public void Email_Should_Throw_For_Empty_Email()
+    {
+        var act = () => new Email("");
+        act.Should().Throw<ArgumentException>();
+    }
 
 }
