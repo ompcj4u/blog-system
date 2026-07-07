@@ -29,4 +29,21 @@ public class User : BaseEntity
         RefreshTokenExpiry = dateTime;
         ModifiedDateTime = DateTime.UtcNow;
     }
+
+    public void ChangePassword(string oldPassword, string newPassword)
+    {
+        if (string.IsNullOrWhiteSpace(oldPassword))
+            throw new ArgumentException("پسورد قبلی را وارد کنید");
+
+        if (string.IsNullOrWhiteSpace(newPassword))
+            throw new ArgumentException("پسورد جدید را وارد کنید");
+
+        if (oldPassword == newPassword)
+            throw new ArgumentException("پسورد قبلی و پسورد جدید نباید یکسان باشند.");
+
+        if (!Password.Verify(oldPassword))
+            throw new ArgumentException("پسورد قبلی نامعتبر است");
+
+        Password = Password.Create(newPassword);
+    }
 }
