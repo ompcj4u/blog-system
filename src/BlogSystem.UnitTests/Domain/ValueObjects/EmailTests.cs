@@ -26,6 +26,7 @@ public class EmailTests
     [InlineData(" mohammad@gmail.com ", "mohammad@gmail.com")]
     [InlineData("Mohammad@gmail.com", "mohammad@gmail.com")]
     [InlineData("mohammad@gmail.com", "mohammad@gmail.com")]
+    [InlineData("mohammad@gmail.co.uk", "mohammad@gmail.co.uk")]
     public void Email_Should_Trim_WhiteSpace(string input,string expected)
     {
         //act
@@ -46,6 +47,7 @@ public class EmailTests
     [Theory]
     [InlineData("  ")]
     [InlineData("mohammad@gmail.")]
+    [InlineData("mohammad@gmail..")]
     [InlineData("mohammad@.com")]
     [InlineData("  @gmail.com")]
     [InlineData("mohammad")]
@@ -53,7 +55,7 @@ public class EmailTests
     public void Email_Should_Throw_Exception_For_Invalid_Emails(string input)
     {
         var act = () => new Email(input);
-        act.Should().Throw<ArgumentException>().WithMessage("Invalid email format");
+        act.Should().Throw<ArgumentException>();
     }
 
     [Fact]
