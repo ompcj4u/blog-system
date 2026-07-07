@@ -16,8 +16,8 @@ public class User : BaseEntity
     public string FullName { get; set; }
     public string RefreshToken { get;set; }
     public DateTime RefreshTokenExpiry { get;set; }
-    public Email Email { get; set; }
-    public Password Password { get; set; }
+    public Email Email { get; private set; }
+    public Password Password { get; private set; }
 
     public IReadOnlyCollection<Post> Posts { get; set; } = new List<Post>();
     public IReadOnlyCollection<Comment> Comments { get; set; } = new List<Comment>();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Common;
+// ValueObject is a concept in Domain Business, it does not have an Identity, but it's value matters
 public abstract class ValueObject
 {
     protected abstract IEnumerable<object> GetEqualityComponents();

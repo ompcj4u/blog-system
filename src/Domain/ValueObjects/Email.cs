@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 namespace Domain.ValueObjects;
 public class Email : ValueObject
 {
+    private static readonly Regex EmailRegex = new(
+              @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$",
+              RegexOptions.Compiled | RegexOptions.CultureInvariant);
     public string Value { get; private set; }
 
     private Email() { }
@@ -29,16 +32,10 @@ public class Email : ValueObject
 
     private static bool IsValidEmail(string email)
     {
-        Regex EmailRegex = new(
-           @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$",
-           RegexOptions.Compiled | RegexOptions.CultureInvariant);
-
         if (email.Contains(".."))
             return false;
 
         return EmailRegex.IsMatch(email);
-
-
     }
 
     public override string ToString() => Value;
