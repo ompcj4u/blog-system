@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +17,15 @@ public class Email : ValueObject
     {
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email cannot be empty");
-        if (!email.Contains("@"))
-            throw new ArgumentException("Invalid email format");
-        
-        Value = email.ToLower().Trim();
+
+        email = email.Trim().ToLowerInvariant();
+
+        if(MailAddress.TryCreate(email, out _))
+            throw new ArgumentException("Invalid email address");
+
+
+
+        Value = email;
     }
 
     public override string ToString() => Value;
