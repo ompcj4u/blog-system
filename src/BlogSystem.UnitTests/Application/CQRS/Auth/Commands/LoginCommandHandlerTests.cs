@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Common;
 using Application.CQRS.Auth.Commands;
 using Application.Interfaces;
+using BlogSystem.UnitTests.Builder;
 using BlogSystem.UnitTests.Helper;
 using Domain.Entities;
 using FluentAssertions;
@@ -33,7 +34,8 @@ public class LoginCommandHandlerTests
         // arrange
         var accessToken = "access - token";
         var refreshToken = "refresh - Token";
-        var user = UserMother.DefaultUser(ValidPassword);
+        //var user = UserMother.DefaultUser(ValidPassword);
+        var user = new UserBuilder().Build();
 
 
         userRepositoryMock.Setup(s => s.GetUserByEmailAsync(user.Email.Value)) // Arrange only what matters
@@ -62,7 +64,8 @@ public class LoginCommandHandlerTests
     [Fact]
     public async Task Should_Return_Failure_When_Password_Is_Invalid()
     {
-        var user = UserMother.DefaultUser(ValidPassword);
+        //var user = UserMother.DefaultUser(ValidPassword);
+        var user = new UserBuilder().Build();
         var command = new LoginCommand(user.Email.Value, "1234567"); // different password from 'user' object
 
         userRepositoryMock.Setup(t => t.GetUserByEmailAsync(user.Email.Value)).ReturnsAsync(user);
