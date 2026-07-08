@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogSystem.UnitTests.ObjectMother;
+namespace BlogSystem.UnitTests.Helper;
 public static class UserMother
 {
 
