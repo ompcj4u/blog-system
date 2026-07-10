@@ -1,5 +1,7 @@
 ﻿using Api.Middlewares;
+using Api.Services;
 using Application;
+using Application.Interfaces;
 using Asp.Versioning;
 using Infrastructure;
 using Microsoft.OpenApi.Models;
@@ -20,6 +22,9 @@ builder.Services.AddApiVersioning(action =>
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddOpenApi(options =>
 {

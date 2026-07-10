@@ -4,6 +4,7 @@ using Application.Common.Models;
 using Application.Interfaces;
 using Domain.Enums;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ public class GetPublishedPostsQueryHandler(IPostRepository _postRepo)
 {
     public async Task<PaginatedResult<PostResponse>> Handle(GetPublishedPostsQuery request, CancellationToken cancellationToken)
     {
-        var query = _postRepo.GetIQueryable()
+        var query = _postRepo.GetIQueryable().AsNoTracking()
             .Where(p => p.Status == PostStatus.Published)
             .OrderByDescending(p => p.CreatedDateTime)
             .Select(p => new PostResponse(

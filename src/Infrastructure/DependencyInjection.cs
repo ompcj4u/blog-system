@@ -28,7 +28,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 sqlOptions =>
                 {
-                    sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
+                    //sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
                 });
         });
 
