@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories;
-internal class UserRepository : GenericRepository<User>, IUserRepository
+public class UserRepository : GenericRepository<User>, IUserRepository
 {
     public UserRepository(AppDbContext context) : base(context)
     {
